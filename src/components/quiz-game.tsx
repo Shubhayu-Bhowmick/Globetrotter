@@ -8,6 +8,7 @@ import LoginButton from "@/components/login-button";
 import ChallengeButton from "@/components/challenge-button";
 import FeedbackModal from "@/components/feedback-modal";
 import type { Destination } from "@/lib/types";
+import GhostChallengeButton from "./ghost-challenge-button";
 
 export default function QuizGame() {
   const { isLoggedIn, updateScore } = useGameContext();
@@ -85,7 +86,7 @@ export default function QuizGame() {
         <ScoreBoard />
         <div className="flex gap-2">
           <LoginButton />
-          {isLoggedIn && <ChallengeButton />}
+          {isLoggedIn ? <ChallengeButton /> : <GhostChallengeButton />}
         </div>
       </div>
 

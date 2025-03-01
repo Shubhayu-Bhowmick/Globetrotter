@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "tsx --env-file=.env ./scripts/seed.ts"
+    "seed": "tsx --env-file=.env ./scripts/seed2.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.22.0",
     "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
