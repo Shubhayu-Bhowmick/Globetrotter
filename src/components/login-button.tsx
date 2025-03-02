@@ -111,9 +111,7 @@ export default function LoginButton() {
             )}
           </Button>
 
-          <p className="text-sm text-gray-500 text-center">
-            Your current score will be saved to this username
-          </p>
+          
         </div>
       </DialogContent>
     </Dialog>
