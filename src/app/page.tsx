@@ -1,11 +1,17 @@
-import { Suspense } from "react";
+"use client";
+
+import { Suspense, use } from "react";
 import QuizGame from "@/components/quiz-game";
 import { GameProvider } from "@/context/game-context";
 import LoadingQuiz from "@/components/loading-quiz";
+import { useState } from "react";
+import StartGame from "@/components/StartGame";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-8">
@@ -16,11 +22,15 @@ export default function Home() {
           Test your knowledge of famous destinations around the world!
         </p>
 
-        <GameProvider>
-          <Suspense fallback={<LoadingQuiz />}>
-            <QuizGame />
-          </Suspense>
-        </GameProvider>
+        {isPlaying ? (
+          <GameProvider>
+            <Suspense fallback={<LoadingQuiz />}>
+              <QuizGame changePlayingState={setIsPlaying} />
+            </Suspense>
+          </GameProvider>
+        ) : (
+          <StartGame changePlayingState={setIsPlaying} />
+        )}
       </div>
     </main>
   );

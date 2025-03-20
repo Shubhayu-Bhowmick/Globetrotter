@@ -9,11 +9,13 @@ import {
 } from "react";
 
 interface GameContextType {
+  questionCount: number;
   score: number;
   correctAnswers: number;
   wrongAnswers: number;
   isLoggedIn: boolean;
   username: string | null;
+  setQuestionCount: (questionCount: number) => void;
   updateScore: (correct: boolean) => void;
   login: (username: string) => Promise<void>;
   logout: () => void;
@@ -21,11 +23,13 @@ interface GameContextType {
 
 // Create the context with default values
 export const GameContext = createContext<GameContextType>({
+  questionCount: 0,
   score: 0,
   correctAnswers: 0,
   wrongAnswers: 0,
   isLoggedIn: false,
   username: null,
+  setQuestionCount: () => {},
   updateScore: () => {},
   login: async () => {},
   logout: () => {},
@@ -39,6 +43,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider = ({ children }: GameProviderProps) => {
+  const [questionCount, setQuestionCount] = useState(0);
   const [score, setScore] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
@@ -49,10 +54,19 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedState = localStorage.getItem("globetrotterGameState");
+      console.log("hello world");
+      console.log(savedState);
       if (savedState) {
         try {
-          const { score, correctAnswers, wrongAnswers, isLoggedIn, username } =
-            JSON.parse(savedState);
+          const {
+            questionCount,
+            score,
+            correctAnswers,
+            wrongAnswers,
+            isLoggedIn,
+            username,
+          } = JSON.parse(savedState);
+          setQuestionCount(questionCount || 0);
           setScore(score || 0);
           setCorrectAnswers(correctAnswers || 0);
           setWrongAnswers(wrongAnswers || 0);
@@ -71,6 +85,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       localStorage.setItem(
         "globetrotterGameState",
         JSON.stringify({
+          questionCount,
           score,
           correctAnswers,
           wrongAnswers,
@@ -78,8 +93,16 @@ export const GameProvider = ({ children }: GameProviderProps) => {
           username,
         })
       );
+      console.log(localStorage.getItem("globetrotterGameState"));
     }
-  }, [score, correctAnswers, wrongAnswers, isLoggedIn, username]);
+  }, [
+    questionCount,
+    score,
+    correctAnswers,
+    wrongAnswers,
+    isLoggedIn,
+    username,
+  ]);
 
   // Update user score in both local state and backend
   const updateScore = (correct: boolean) => {
@@ -168,6 +191,8 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   return (
     <GameContext.Provider
       value={{
+        questionCount,
+        setQuestionCount,
         score,
         correctAnswers,
         wrongAnswers,
