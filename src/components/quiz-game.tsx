@@ -9,9 +9,11 @@ import ChallengeButton from "@/components/challenge-button";
 import FeedbackModal from "@/components/feedback-modal";
 import type { Destination } from "@/lib/types";
 import GhostChallengeButton from "./ghost-challenge-button";
+//import { useGameContext } from "@/context/game-context";
 
-export default function QuizGame() {
-  const { isLoggedIn, updateScore } = useGameContext();
+export default function QuizGame({ changePlayingState }) {
+  const { questionCount, isLoggedIn, updateScore, setQuestionCount } =
+    useGameContext();
 
   const [currentDestination, setCurrentDestination] =
     useState<Destination | null>(null);
@@ -65,6 +67,7 @@ export default function QuizGame() {
   const handleNext = () => {
     setShowFeedback(false);
     fetchRandomDestination();
+    setQuestionCount(questionCount + 1);
   };
 
   const handlePlayAgain = () => {
@@ -85,6 +88,12 @@ export default function QuizGame() {
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <ScoreBoard />
         <div className="flex gap-2">
+          <button
+            className="bg-amber-400 p-5 font-bold"
+            onClick={() => changePlayingState(false)}
+          >
+            Pause
+          </button>
           <LoginButton />
           {isLoggedIn ? <ChallengeButton /> : <GhostChallengeButton />}
         </div>

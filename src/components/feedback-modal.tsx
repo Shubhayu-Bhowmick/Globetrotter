@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import confetti from "canvas-confetti";
 import { Frown, PartyPopper, ArrowRight, RotateCcw } from "lucide-react";
+import { useGameContext } from "@/context/game-context";
 
 interface FeedbackModalProps {
   isCorrect: boolean;

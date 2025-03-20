@@ -6,8 +6,15 @@ import { CheckCircle, XCircle, Trophy } from "lucide-react";
 import { useEffect } from "react";
 
 export default function ScoreBoard() {
-  const { score, correctAnswers, wrongAnswers, username } = useGameContext();
-  console.log("Scoreboard render:", { score, correctAnswers, wrongAnswers });
+  const { questionCount, score, correctAnswers, wrongAnswers, username } =
+    useGameContext();
+
+  console.log("Scoreboard render:", {
+    questionCount,
+    score,
+    correctAnswers,
+    wrongAnswers,
+  });
   useEffect(() => {
     console.log("Score updated:", score);
   }, [score, correctAnswers, wrongAnswers]);
@@ -15,6 +22,11 @@ export default function ScoreBoard() {
   return (
     <Card className="p-4 bg-white dark:bg-slate-800 shadow-sm w-full sm:w-auto">
       <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-start">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">Q</span>
+          <span className="font-bold text-xl">{questionCount}</span>
+        </div>
+
         <div className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-yellow-500" />
           <span className="font-bold text-xl">{score}</span>
